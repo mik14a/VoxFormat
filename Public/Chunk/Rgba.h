@@ -5,21 +5,19 @@
 #include "CoreMinimal.h"
 #include "Chunk.h"
 
-#include <vector>
-
 /**
  * Rgba chunk
  */
 struct FVoxChunkRgba : public FVoxChunk
 {
-	static constexpr uint32_t Tag = GenerateId('R', 'G', 'B', 'A');
-	struct color {
-		uint8_t r, g, b, a;
-		color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
-			: r(r), g(g), b(b), a(a) {}
+	static constexpr uint32 Tag = GenerateId('R', 'G', 'B', 'A');
+	struct Color {
+		uint8 R, G, B, A;
+		Color(uint8 r, uint8 g, uint8 b, uint8 a)
+			: R(r), G(g), B(b), A(a) {}
 	};
 
-	std::vector<color> Palettes;
+	TArray<Color> Palettes;
 
-	static FVoxChunkRgba Read(const void*& data, size_t& size);
+	static FVoxChunkRgba Read(const void*& data, int64& size);
 };

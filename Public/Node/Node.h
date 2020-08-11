@@ -6,27 +6,23 @@
 #include "Chunk/Chunk.h"
 #include "Tag.h"
 
-#include <cstdint>
-#include <string>
-#include <unordered_map>
+using DictionaryT = TMap<FString, FString>;
 
-using dictionary_t = std::unordered_map<std::string, std::string>;
-
-inline std::string ReadString(const void*& data, size_t& size) {
-	auto bytes = ReadData<int32_t>(data, size);
-	std::string string((const char*)data, bytes);
+inline FString ReadString(const void*& data, int64& size) {
+	auto bytes = ReadData<int32>(data, size);
+	auto string = FString(bytes, (const char*)data);
 	data = (char*)data + bytes;
 	size -= bytes;
 	return string;
 }
 
-inline dictionary_t ReadDictionary(const void*& data, size_t& size) {
-	dictionary_t dictionary;
-	auto num = ReadData<int32_t>(data, size);
+inline DictionaryT ReadDictionary(const void*& data, int64& size) {
+	DictionaryT dictionary;
+	auto num = ReadData<int32>(data, size);
 	for (auto i = 0; i < num; ++i) {
 		auto key = ReadString(data, size);
 		auto value = ReadString(data, size);
-		dictionary.emplace(std::move(key), std::move(value));
+		dictionary.Emplace(MoveTemp(key), MoveTemp(value));
 	}
 	return dictionary;
 }
@@ -36,6 +32,6 @@ inline dictionary_t ReadDictionary(const void*& data, size_t& size) {
  */
 struct FVoxNode : FVoxChunk
 {
-	int32_t Id;
-	uint32_t Tag;
+	int32 Id;
+	uint32 Tag;
 };

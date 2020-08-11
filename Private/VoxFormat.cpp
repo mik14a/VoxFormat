@@ -4,11 +4,11 @@
 
 #define LOCTEXT_NAMESPACE "FVoxFormatModule"
 
-FVox ReadVox(const void* data, size_t size)
+FVox ReadVox(const void* data, int64 size)
 {
-	auto id = ReadData<uint32_t>(data, size);
+	auto id = ReadData<uint32>(data, size);
 	if (FVox::Tag == id) {
-		auto version = ReadData<int32_t>(data, size);
+		auto version = ReadData<int32>(data, size);
 		if (150 == version) {
 			return FVox::Read(data, size);
 		}

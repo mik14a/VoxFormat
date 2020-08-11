@@ -2,21 +2,21 @@
 
 #include "Chunk/Xyzi.h"
 
-FVoxChunkXyzi FVoxChunkXyzi::Read(const void*& data, size_t& size)
+FVoxChunkXyzi FVoxChunkXyzi::Read(const void*& data, int64& size)
 {
 	auto cxyzi = FVoxChunkXyzi();
-	auto id = ReadData<uint32_t>(data, size);
+	auto id = ReadData<uint32>(data, size);
 	if (FVoxChunkXyzi::Tag != id) return cxyzi;
 
-	cxyzi.Content = ReadData<int32_t>(data, size);
-	cxyzi.Children = ReadData<int32_t>(data, size);
-	cxyzi.Num = ReadData<int32_t>(data, size);
+	cxyzi.Content = ReadData<int32>(data, size);
+	cxyzi.Children = ReadData<int32>(data, size);
+	cxyzi.Num = ReadData<int32>(data, size);
 	for (auto n = 0; n < cxyzi.Num; ++n) {
-		auto x = ReadData<uint8_t>(data, size);
-		auto y = ReadData<uint8_t>(data, size);
-		auto z = ReadData<uint8_t>(data, size);
-		auto i = ReadData<uint8_t>(data, size);
-		cxyzi.Voxels.emplace_back(x, y, z, i);
+		auto x = ReadData<uint8>(data, size);
+		auto y = ReadData<uint8>(data, size);
+		auto z = ReadData<uint8>(data, size);
+		auto i = ReadData<uint8>(data, size);
+		cxyzi.Voxels.Emplace(x, y, z, i);
 	}
 	return cxyzi;
 }

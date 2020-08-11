@@ -13,53 +13,50 @@
 #include "Node/Shape.h"
 #include "Node/Transform.h"
 
-#include <iostream>
-#include <memory>
-
-FVox FVox::Read(const void*& data, size_t& size)
+FVox FVox::Read(const void*& data, int64& size)
 {
 	FVox vox;
 	vox.Version = 150;
 	auto main = FVoxChunkMain::Read(data, size);
 	while (0 < size) {
-		auto id = PeekData<uint32_t>(data);
+		auto id = PeekData<uint32>(data);
 		switch (id) {
 		case FVoxChunkPack::Tag: {
 			auto pack = FVoxChunkPack::Read(data, size);
 		} break;
 		case FVoxChunkSize::Tag: {
-			vox.Size.push_back(FVoxChunkSize::Read(data, size));
+			vox.Size.Emplace(FVoxChunkSize::Read(data, size));
 		} break;
 		case FVoxChunkXyzi::Tag: {
-			vox.Voxel.push_back(FVoxChunkXyzi::Read(data, size));
+			vox.Voxel.Emplace(FVoxChunkXyzi::Read(data, size));
 		} break;
 		case FVoxChunkRgba::Tag: {
 			vox.Palette = FVoxChunkRgba::Read(data, size);
 		} break;
 		case FVoxChunkMatl::Tag: {
 			auto matl = FVoxChunkMatl::Read(data, size);
-			vox.Material.emplace(matl.Id, std::move(matl));
+			vox.Material.Emplace(matl.Id, std::move(matl));
 		} break;
 		case FVoxChunkLayr::Tag: {
 			auto layr = FVoxChunkLayr::Read(data, size);
-			vox.Layer.emplace(layr.Id, std::move(layr));
+			vox.Layer.Emplace(layr.Id, std::move(layr));
 		} break;
 		case FVoxNodeTransform::Tag: {
-			auto transform = std::shared_ptr<FVoxNodeTransform>(FVoxNodeTransform::Read(data, size));
-			vox.Node.emplace(transform->Id, transform);
+			auto transform = TSharedPtr<FVoxNodeTransform>(FVoxNodeTransform::Read(data, size));
+			vox.Node.Emplace(transform->Id, transform);
 		} break;
 		case FVoxNodeGroup::Tag: {
-			auto group = std::shared_ptr<FVoxNodeGroup>(FVoxNodeGroup::Read(data, size));
-			vox.Node.emplace(group->Id, group);
+			auto group = TSharedPtr<FVoxNodeGroup>(FVoxNodeGroup::Read(data, size));
+			vox.Node.Emplace(group->Id, group);
 		} break;
 		case FVoxNodeShape::Tag: {
-			auto shape = std::shared_ptr<FVoxNodeShape>(FVoxNodeShape::Read(data, size));
-			vox.Node.emplace(shape->Id, shape);
+			auto shape = TSharedPtr<FVoxNodeShape>(FVoxNodeShape::Read(data, size));
+			vox.Node.Emplace(shape->Id, shape);
 		} break;
 		default: {
-			id = ReadData<uint32_t>(data, size);
-			auto content = ReadData<int32_t>(data, size);
-			auto children = ReadData<int32_t>(data, size);
+			id = ReadData<uint32>(data, size);
+			auto content = ReadData<int32>(data, size);
+			auto children = ReadData<int32>(data, size);
 			data = (char*)data + content;
 			size -= content;
 		} break;
@@ -68,7 +65,7 @@ FVox FVox::Read(const void*& data, size_t& size)
 	return vox;
 }
 
-const uint32_t FVox::DefaultPalette[256] =
+const uint32 FVox::DefaultPalette[256] =
 {
   0xffffffff, 0xffffffcc, 0xffffff99, 0xffffff66, 0xffffff33, 0xffffff00, 0xffffccff, 0xffffcccc, 0xffffcc99, 0xffffcc66, 0xffffcc33, 0xffffcc00, 0xffff99ff, 0xffff99cc, 0xffff9999, 0xffff9966,
   0xffff9933, 0xffff9900, 0xffff66ff, 0xffff66cc, 0xffff6699, 0xffff6666, 0xffff6633, 0xffff6600, 0xffff33ff, 0xffff33cc, 0xffff3399, 0xffff3366, 0xffff3333, 0xffff3300, 0xffff00ff, 0xffff00cc,

@@ -10,9 +10,9 @@
  */
 struct FVoxChunkPack : public FVoxChunk
 {
-	static constexpr uint32_t Tag = GenerateId('P', 'A', 'C', 'K');
+	static constexpr uint32 Tag = GenerateId('P', 'A', 'C', 'K');
 
-	int32_t Models;
+	int32 Models;
 
-	static FVoxChunkPack Read(const void*& data, size_t& size);
+	static FVoxChunkPack Read(const void*& data, int64& size);
 };

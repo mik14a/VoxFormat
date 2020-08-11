@@ -12,10 +12,10 @@
  */
 struct FVoxChunkMatl : public FVoxChunk
 {
-	static constexpr uint32_t Tag = GenerateId('M', 'A', 'T', 'L');
+	static constexpr uint32 Tag = GenerateId('M', 'A', 'T', 'L');
 
-	int32_t Id;
-	dictionary_t Properties;
+	int32 Id;
+	DictionaryT Properties;
 
-	static FVoxChunkMatl Read(const void*& data, size_t& size);
+	static FVoxChunkMatl Read(const void*& data, int64& size);
 };

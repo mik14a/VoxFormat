@@ -5,21 +5,19 @@
 #include "CoreMinimal.h"
 #include "Chunk.h"
 
-#include <vector>
-
 /**
  * Xyzi chunk
  */
 struct FVoxChunkXyzi : public FVoxChunk
 {
-	static constexpr uint32_t Tag = GenerateId('X', 'Y', 'Z', 'I');
+	static constexpr uint32 Tag = GenerateId('X', 'Y', 'Z', 'I');
 	struct cell {
-		uint8_t x, y, z, i;
-		cell(uint8_t x, uint8_t y, uint8_t z, uint8_t i) : x(x), y(y), z(z), i(i) {}
+		uint8 x, y, z, i;
+		cell(uint8 x, uint8 y, uint8 z, uint8 i) : x(x), y(y), z(z), i(i) {}
 	};
 
-	int32_t Num;
-	std::vector<cell> Voxels;
+	int32 Num;
+	TArray<cell> Voxels;
 
-	static FVoxChunkXyzi Read(const void*& data, size_t& size);
+	static FVoxChunkXyzi Read(const void*& data, int64& size);
 };

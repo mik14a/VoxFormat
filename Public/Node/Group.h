@@ -5,18 +5,15 @@
 #include "CoreMinimal.h"
 #include "Node.h"
 
-#include <string>
-#include <unordered_map>
-
 /**
  * Group node chunk
  */
 struct FVoxNodeGroup : FVoxNode
 {
-	static constexpr uint32_t Tag = GenerateId('n', 'G', 'R', 'P');
+	static constexpr uint32 Tag = GenerateId('n', 'G', 'R', 'P');
 
-	std::vector<int32_t> Child;
+	TArray<int32> Child;
 
 	FVoxNodeGroup() { FVoxNode::Tag = Tag; }
-	static FVoxNodeGroup* Read(const void*& data, size_t& size);
+	static FVoxNodeGroup* Read(const void*& data, int64& size);
 };

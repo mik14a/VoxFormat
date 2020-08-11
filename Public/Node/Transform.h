@@ -5,21 +5,18 @@
 #include "CoreMinimal.h"
 #include "Node.h"
 
-#include <string>
-#include <unordered_map>
-
 /**
  * Scene translation vector
  */
-struct translation {
-	int32_t x = 0, y = 0, z = 0;
+struct FVoxTranslation {
+	int32 X = 0, Y = 0, Z = 0;
 };
 
 /**
  * Scene rotation matrix
  */
-struct rotation {
-	int8_t m[3][3] = { {1, 0, 0}, {0, 1, 0}, {0, 0, 1} };
+struct FVoxRotation {
+	int8_t M[3][3] = { {1, 0, 0}, {0, 1, 0}, {0, 0, 1} };
 };
 
 /**
@@ -28,19 +25,19 @@ struct rotation {
 struct FVoxNodeTransform : FVoxNode
 {
 	struct Frame {
-		rotation rotation;
-		translation translation;
+		FVoxRotation Rotation;
+		FVoxTranslation Translation;
 	};
 
-	static constexpr uint32_t Tag = GenerateId('n', 'T', 'R', 'N');
-	using frame_t = std::vector<FVoxNodeTransform::Frame>;
+	static constexpr uint32 Tag = GenerateId('n', 'T', 'R', 'N');
+	using FrameT = TArray<FVoxNodeTransform::Frame>;
 
-	std::string Name;
+	FString Name;
 	bool Hidden;
-	int32_t Child;
-	int32_t Layer;
-	frame_t Frame;
+	int32 Child;
+	int32 Layer;
+	FrameT Frame;
 
 	FVoxNodeTransform() { FVoxNode::Tag = Tag; }
-	static FVoxNodeTransform* Read(const void*& data, size_t& size);
+	static FVoxNodeTransform* Read(const void*& data, int64& size);
 };

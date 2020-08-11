@@ -10,7 +10,7 @@
  */
 struct FVoxChunkMain : public FVoxChunk
 {
-	static constexpr uint32_t Tag = GenerateId('M', 'A', 'I', 'N');
+	static constexpr uint32 Tag = GenerateId('M', 'A', 'I', 'N');
 
-	static FVoxChunkMain Read(const void*& data, size_t& size);
+	static FVoxChunkMain Read(const void*& data, int64& size);
 };

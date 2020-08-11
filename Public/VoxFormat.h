@@ -12,7 +12,7 @@
  * @param size Size of data
  * @return Vox format data
 */
-VOXFORMAT_API FVox ReadVox(const void* data, size_t size);
+VOXFORMAT_API FVox ReadVox(const void* data, int64 size);
 
 class FVoxFormatModule : public IModuleInterface
 {

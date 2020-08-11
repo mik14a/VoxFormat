@@ -2,15 +2,15 @@
 
 #include "Chunk/Matl.h"
 
-FVoxChunkMatl FVoxChunkMatl::Read(const void*& data, size_t& size)
+FVoxChunkMatl FVoxChunkMatl::Read(const void*& data, int64& size)
 {
 	auto cmatl = FVoxChunkMatl();
-	auto id = ReadData<uint32_t>(data, size);
+	auto id = ReadData<uint32>(data, size);
 	if (FVoxChunkMatl::Tag != id) return cmatl;
 
-	cmatl.Content = ReadData<int32_t>(data, size);
-	cmatl.Children = ReadData<int32_t>(data, size);
-	cmatl.Id = ReadData<int32_t>(data, size);
+	cmatl.Content = ReadData<int32>(data, size);
+	cmatl.Children = ReadData<int32>(data, size);
+	cmatl.Id = ReadData<int32>(data, size);
 	cmatl.Properties = ReadDictionary(data, size);
 	return cmatl;
 }

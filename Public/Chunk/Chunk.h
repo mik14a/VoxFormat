@@ -5,15 +5,13 @@
 #include "CoreMinimal.h"
 #include "Tag.h"
 
-#include <cstdint>
-
 template <typename T>
 T PeekData(const void* data) {
 	return *(T*)data;
 }
 
 template <typename T>
-T ReadData(const void*& data, size_t& size) {
+T ReadData(const void*& data, int64& size) {
 	T value = PeekData<T>(data);
 	data = (T*)data + 1;
 	size -= sizeof(T);
@@ -24,6 +22,6 @@ T ReadData(const void*& data, size_t& size) {
  * Chunk structure
  */
 struct FVoxChunk {
-	int32_t Content;
-	int32_t Children;
+	int32 Content;
+	int32 Children;
 };
